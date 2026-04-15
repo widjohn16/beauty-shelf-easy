@@ -17,6 +17,10 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as ProdutoSlugRouteImport } from './routes/produto.$slug'
 import { Route as AdminDashboardRouteImport } from './routes/admin.dashboard'
+import { Route as AdminDashboardIndexRouteImport } from './routes/admin.dashboard.index'
+import { Route as AdminDashboardProductsRouteImport } from './routes/admin.dashboard.products'
+import { Route as AdminDashboardOrdersRouteImport } from './routes/admin.dashboard.orders'
+import { Route as AdminDashboardCategoriesRouteImport } from './routes/admin.dashboard.categories'
 
 const ProdutosRoute = ProdutosRouteImport.update({
   id: '/produtos',
@@ -58,6 +62,27 @@ const AdminDashboardRoute = AdminDashboardRouteImport.update({
   path: '/admin/dashboard',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminDashboardIndexRoute = AdminDashboardIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AdminDashboardRoute,
+} as any)
+const AdminDashboardProductsRoute = AdminDashboardProductsRouteImport.update({
+  id: '/products',
+  path: '/products',
+  getParentRoute: () => AdminDashboardRoute,
+} as any)
+const AdminDashboardOrdersRoute = AdminDashboardOrdersRouteImport.update({
+  id: '/orders',
+  path: '/orders',
+  getParentRoute: () => AdminDashboardRoute,
+} as any)
+const AdminDashboardCategoriesRoute =
+  AdminDashboardCategoriesRouteImport.update({
+    id: '/categories',
+    path: '/categories',
+    getParentRoute: () => AdminDashboardRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -65,9 +90,13 @@ export interface FileRoutesByFullPath {
   '/categorias': typeof CategoriasRoute
   '/checkout': typeof CheckoutRoute
   '/produtos': typeof ProdutosRoute
-  '/admin/dashboard': typeof AdminDashboardRoute
+  '/admin/dashboard': typeof AdminDashboardRouteWithChildren
   '/produto/$slug': typeof ProdutoSlugRoute
   '/admin/': typeof AdminIndexRoute
+  '/admin/dashboard/categories': typeof AdminDashboardCategoriesRoute
+  '/admin/dashboard/orders': typeof AdminDashboardOrdersRoute
+  '/admin/dashboard/products': typeof AdminDashboardProductsRoute
+  '/admin/dashboard/': typeof AdminDashboardIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -75,9 +104,12 @@ export interface FileRoutesByTo {
   '/categorias': typeof CategoriasRoute
   '/checkout': typeof CheckoutRoute
   '/produtos': typeof ProdutosRoute
-  '/admin/dashboard': typeof AdminDashboardRoute
   '/produto/$slug': typeof ProdutoSlugRoute
   '/admin': typeof AdminIndexRoute
+  '/admin/dashboard/categories': typeof AdminDashboardCategoriesRoute
+  '/admin/dashboard/orders': typeof AdminDashboardOrdersRoute
+  '/admin/dashboard/products': typeof AdminDashboardProductsRoute
+  '/admin/dashboard': typeof AdminDashboardIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -86,9 +118,13 @@ export interface FileRoutesById {
   '/categorias': typeof CategoriasRoute
   '/checkout': typeof CheckoutRoute
   '/produtos': typeof ProdutosRoute
-  '/admin/dashboard': typeof AdminDashboardRoute
+  '/admin/dashboard': typeof AdminDashboardRouteWithChildren
   '/produto/$slug': typeof ProdutoSlugRoute
   '/admin/': typeof AdminIndexRoute
+  '/admin/dashboard/categories': typeof AdminDashboardCategoriesRoute
+  '/admin/dashboard/orders': typeof AdminDashboardOrdersRoute
+  '/admin/dashboard/products': typeof AdminDashboardProductsRoute
+  '/admin/dashboard/': typeof AdminDashboardIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -101,6 +137,10 @@ export interface FileRouteTypes {
     | '/admin/dashboard'
     | '/produto/$slug'
     | '/admin/'
+    | '/admin/dashboard/categories'
+    | '/admin/dashboard/orders'
+    | '/admin/dashboard/products'
+    | '/admin/dashboard/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -108,9 +148,12 @@ export interface FileRouteTypes {
     | '/categorias'
     | '/checkout'
     | '/produtos'
-    | '/admin/dashboard'
     | '/produto/$slug'
     | '/admin'
+    | '/admin/dashboard/categories'
+    | '/admin/dashboard/orders'
+    | '/admin/dashboard/products'
+    | '/admin/dashboard'
   id:
     | '__root__'
     | '/'
@@ -121,6 +164,10 @@ export interface FileRouteTypes {
     | '/admin/dashboard'
     | '/produto/$slug'
     | '/admin/'
+    | '/admin/dashboard/categories'
+    | '/admin/dashboard/orders'
+    | '/admin/dashboard/products'
+    | '/admin/dashboard/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -129,7 +176,7 @@ export interface RootRouteChildren {
   CategoriasRoute: typeof CategoriasRoute
   CheckoutRoute: typeof CheckoutRoute
   ProdutosRoute: typeof ProdutosRoute
-  AdminDashboardRoute: typeof AdminDashboardRoute
+  AdminDashboardRoute: typeof AdminDashboardRouteWithChildren
   ProdutoSlugRoute: typeof ProdutoSlugRoute
   AdminIndexRoute: typeof AdminIndexRoute
 }
@@ -192,8 +239,54 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminDashboardRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/dashboard/': {
+      id: '/admin/dashboard/'
+      path: '/'
+      fullPath: '/admin/dashboard/'
+      preLoaderRoute: typeof AdminDashboardIndexRouteImport
+      parentRoute: typeof AdminDashboardRoute
+    }
+    '/admin/dashboard/products': {
+      id: '/admin/dashboard/products'
+      path: '/products'
+      fullPath: '/admin/dashboard/products'
+      preLoaderRoute: typeof AdminDashboardProductsRouteImport
+      parentRoute: typeof AdminDashboardRoute
+    }
+    '/admin/dashboard/orders': {
+      id: '/admin/dashboard/orders'
+      path: '/orders'
+      fullPath: '/admin/dashboard/orders'
+      preLoaderRoute: typeof AdminDashboardOrdersRouteImport
+      parentRoute: typeof AdminDashboardRoute
+    }
+    '/admin/dashboard/categories': {
+      id: '/admin/dashboard/categories'
+      path: '/categories'
+      fullPath: '/admin/dashboard/categories'
+      preLoaderRoute: typeof AdminDashboardCategoriesRouteImport
+      parentRoute: typeof AdminDashboardRoute
+    }
   }
 }
+
+interface AdminDashboardRouteChildren {
+  AdminDashboardCategoriesRoute: typeof AdminDashboardCategoriesRoute
+  AdminDashboardOrdersRoute: typeof AdminDashboardOrdersRoute
+  AdminDashboardProductsRoute: typeof AdminDashboardProductsRoute
+  AdminDashboardIndexRoute: typeof AdminDashboardIndexRoute
+}
+
+const AdminDashboardRouteChildren: AdminDashboardRouteChildren = {
+  AdminDashboardCategoriesRoute: AdminDashboardCategoriesRoute,
+  AdminDashboardOrdersRoute: AdminDashboardOrdersRoute,
+  AdminDashboardProductsRoute: AdminDashboardProductsRoute,
+  AdminDashboardIndexRoute: AdminDashboardIndexRoute,
+}
+
+const AdminDashboardRouteWithChildren = AdminDashboardRoute._addFileChildren(
+  AdminDashboardRouteChildren,
+)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
@@ -201,7 +294,7 @@ const rootRouteChildren: RootRouteChildren = {
   CategoriasRoute: CategoriasRoute,
   CheckoutRoute: CheckoutRoute,
   ProdutosRoute: ProdutosRoute,
-  AdminDashboardRoute: AdminDashboardRoute,
+  AdminDashboardRoute: AdminDashboardRouteWithChildren,
   ProdutoSlugRoute: ProdutoSlugRoute,
   AdminIndexRoute: AdminIndexRoute,
 }
