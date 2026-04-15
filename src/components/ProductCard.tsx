@@ -12,8 +12,8 @@ interface ProductCardProps {
   original_price?: number | null;
   image_url: string | null;
   brand?: string | null;
-  free_shipping?: boolean;
-  is_promotion?: boolean;
+  free_shipping?: boolean | null;
+  is_promotion?: boolean | null;
 }
 
 export function ProductCard({
