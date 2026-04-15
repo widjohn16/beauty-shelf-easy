@@ -13,7 +13,7 @@ import { Route as ProdutosRouteImport } from './routes/produtos'
 import { Route as CheckoutRouteImport } from './routes/checkout'
 import { Route as CategoriasRouteImport } from './routes/categorias'
 import { Route as CarrinhoRouteImport } from './routes/carrinho'
-import { Route as AdminRouteImport } from './routes/admin'
+import { Route as AdminLoginRouteImport } from './routes/admin-login'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ProdutoSlugRouteImport } from './routes/produto.$slug'
 import { Route as AdminDashboardRouteImport } from './routes/admin.dashboard'
@@ -42,9 +42,9 @@ const CarrinhoRoute = CarrinhoRouteImport.update({
   path: '/carrinho',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AdminRoute = AdminRouteImport.update({
-  id: '/admin',
-  path: '/admin',
+const AdminLoginRoute = AdminLoginRouteImport.update({
+  id: '/admin-login',
+  path: '/admin-login',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -86,7 +86,7 @@ const AdminDashboardCategoriesRoute =
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/admin': typeof AdminRouteWithChildren
+  '/admin-login': typeof AdminLoginRoute
   '/carrinho': typeof CarrinhoRoute
   '/categorias': typeof CategoriasRoute
   '/checkout': typeof CheckoutRoute
@@ -100,7 +100,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/admin': typeof AdminRouteWithChildren
+  '/admin-login': typeof AdminLoginRoute
   '/carrinho': typeof CarrinhoRoute
   '/categorias': typeof CategoriasRoute
   '/checkout': typeof CheckoutRoute
@@ -114,7 +114,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/admin': typeof AdminRouteWithChildren
+  '/admin-login': typeof AdminLoginRoute
   '/carrinho': typeof CarrinhoRoute
   '/categorias': typeof CategoriasRoute
   '/checkout': typeof CheckoutRoute
@@ -130,7 +130,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
-    | '/admin'
+    | '/admin-login'
     | '/carrinho'
     | '/categorias'
     | '/checkout'
@@ -144,7 +144,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
-    | '/admin'
+    | '/admin-login'
     | '/carrinho'
     | '/categorias'
     | '/checkout'
@@ -157,7 +157,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
-    | '/admin'
+    | '/admin-login'
     | '/carrinho'
     | '/categorias'
     | '/checkout'
@@ -172,7 +172,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  AdminRoute: typeof AdminRouteWithChildren
+  AdminLoginRoute: typeof AdminLoginRoute
   CarrinhoRoute: typeof CarrinhoRoute
   CategoriasRoute: typeof CategoriasRoute
   CheckoutRoute: typeof CheckoutRoute
@@ -210,11 +210,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CarrinhoRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/admin': {
-      id: '/admin'
-      path: '/admin'
-      fullPath: '/admin'
-      preLoaderRoute: typeof AdminRouteImport
+    '/admin-login': {
+      id: '/admin-login'
+      path: '/admin-login'
+      fullPath: '/admin-login'
+      preLoaderRoute: typeof AdminLoginRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -269,37 +269,9 @@ declare module '@tanstack/react-router' {
   }
 }
 
-interface AdminDashboardRouteChildren {
-  AdminDashboardCategoriesRoute: typeof AdminDashboardCategoriesRoute
-  AdminDashboardOrdersRoute: typeof AdminDashboardOrdersRoute
-  AdminDashboardProductsRoute: typeof AdminDashboardProductsRoute
-  AdminDashboardIndexRoute: typeof AdminDashboardIndexRoute
-}
-
-const AdminDashboardRouteChildren: AdminDashboardRouteChildren = {
-  AdminDashboardCategoriesRoute: AdminDashboardCategoriesRoute,
-  AdminDashboardOrdersRoute: AdminDashboardOrdersRoute,
-  AdminDashboardProductsRoute: AdminDashboardProductsRoute,
-  AdminDashboardIndexRoute: AdminDashboardIndexRoute,
-}
-
-const AdminDashboardRouteWithChildren = AdminDashboardRoute._addFileChildren(
-  AdminDashboardRouteChildren,
-)
-
-interface AdminRouteChildren {
-  AdminDashboardRoute: typeof AdminDashboardRouteWithChildren
-}
-
-const AdminRouteChildren: AdminRouteChildren = {
-  AdminDashboardRoute: AdminDashboardRouteWithChildren,
-}
-
-const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
-
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  AdminRoute: AdminRouteWithChildren,
+  AdminLoginRoute: AdminLoginRoute,
   CarrinhoRoute: CarrinhoRoute,
   CategoriasRoute: CategoriasRoute,
   CheckoutRoute: CheckoutRoute,
