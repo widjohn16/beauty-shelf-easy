@@ -85,7 +85,7 @@ function AdminDashboardLayout() {
             {navItems.map((item) => (
               <Link
                 key={item.to}
-                to={item.to}
+                to={item.to as any}
                 className={`rounded-lg p-2 ${
                   location.pathname === item.to ? "bg-primary/10 text-primary" : "text-muted-foreground"
                 }`}
