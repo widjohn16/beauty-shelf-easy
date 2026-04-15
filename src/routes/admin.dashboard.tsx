@@ -25,7 +25,7 @@ function AdminDashboardLayout() {
 
   const handleLogout = async () => {
     await supabase.auth.signOut();
-    navigate({ to: "/admin" });
+    navigate({ to: "/admin-login" as any });
   };
 
   if (checking) return null;

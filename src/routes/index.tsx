@@ -109,7 +109,7 @@ function HomePage() {
               Bem-vindo à BellaCosméticos!
             </h2>
             <p className="mt-2 text-muted-foreground">
-              Acesse o <a href="/admin" className="text-primary underline">painel administrativo</a> para cadastrar seus primeiros produtos e categorias.
+              Acesse o <a href="/admin-login" className="text-primary underline">painel administrativo</a> para cadastrar seus primeiros produtos e categorias.
             </p>
           </section>
         )}
