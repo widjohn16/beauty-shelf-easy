@@ -16,7 +16,7 @@ function AdminDashboardLayout() {
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
       if (!session) {
-        navigate({ to: "/admin" });
+        navigate({ to: "/admin-login" as any });
       } else {
         setChecking(false);
       }
