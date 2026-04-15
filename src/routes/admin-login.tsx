@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { LogIn } from "lucide-react";
 
-export const Route = createFileRoute("/admin")({
+export const Route = createFileRoute("/admin-login")({
   component: AdminLoginPage,
   head: () => ({
     meta: [{ title: "Admin - BellaCosméticos" }],
