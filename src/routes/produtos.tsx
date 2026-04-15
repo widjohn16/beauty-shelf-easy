@@ -14,8 +14,8 @@ type Category = Database["public"]["Tables"]["categories"]["Row"];
 export const Route = createFileRoute("/produtos")({
   component: ProdutosPage,
   validateSearch: (search: Record<string, unknown>) => ({
-    categoria: (search.categoria as string) || "",
-    busca: (search.busca as string) || "",
+    categoria: (search.categoria as string) ?? undefined,
+    busca: (search.busca as string) ?? undefined,
   }),
   head: () => ({
     meta: [

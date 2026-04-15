@@ -1,4 +1,5 @@
-import { createFileRoute, Outlet, Link, useLocation, useNavigate } from "@tantml/react-router";
+import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, Outlet, Link, useLocation, useNavigate } from "@tanstack/react-router";
 import { supabase } from "@/integrations/supabase/client";
 import { useState, useEffect } from "react";
 import { Package, Tag, ShoppingCart, LogOut, Home, LayoutDashboard } from "lucide-react";
