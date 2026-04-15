@@ -58,9 +58,9 @@ const ProdutoSlugRoute = ProdutoSlugRouteImport.update({
   getParentRoute: () => rootRouteImport,
 } as any)
 const AdminDashboardRoute = AdminDashboardRouteImport.update({
-  id: '/dashboard',
-  path: '/dashboard',
-  getParentRoute: () => AdminRoute,
+  id: '/admin/dashboard',
+  path: '/admin/dashboard',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const AdminDashboardIndexRoute = AdminDashboardIndexRouteImport.update({
   id: '/',
@@ -177,6 +177,7 @@ export interface RootRouteChildren {
   CategoriasRoute: typeof CategoriasRoute
   CheckoutRoute: typeof CheckoutRoute
   ProdutosRoute: typeof ProdutosRoute
+  AdminDashboardRoute: typeof AdminDashboardRouteWithChildren
   ProdutoSlugRoute: typeof ProdutoSlugRoute
 }
 
@@ -233,10 +234,10 @@ declare module '@tanstack/react-router' {
     }
     '/admin/dashboard': {
       id: '/admin/dashboard'
-      path: '/dashboard'
+      path: '/admin/dashboard'
       fullPath: '/admin/dashboard'
       preLoaderRoute: typeof AdminDashboardRouteImport
-      parentRoute: typeof AdminRoute
+      parentRoute: typeof rootRouteImport
     }
     '/admin/dashboard/': {
       id: '/admin/dashboard/'
@@ -269,6 +270,24 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface AdminDashboardRouteChildren {
+  AdminDashboardCategoriesRoute: typeof AdminDashboardCategoriesRoute
+  AdminDashboardOrdersRoute: typeof AdminDashboardOrdersRoute
+  AdminDashboardProductsRoute: typeof AdminDashboardProductsRoute
+  AdminDashboardIndexRoute: typeof AdminDashboardIndexRoute
+}
+
+const AdminDashboardRouteChildren: AdminDashboardRouteChildren = {
+  AdminDashboardCategoriesRoute: AdminDashboardCategoriesRoute,
+  AdminDashboardOrdersRoute: AdminDashboardOrdersRoute,
+  AdminDashboardProductsRoute: AdminDashboardProductsRoute,
+  AdminDashboardIndexRoute: AdminDashboardIndexRoute,
+}
+
+const AdminDashboardRouteWithChildren = AdminDashboardRoute._addFileChildren(
+  AdminDashboardRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AdminLoginRoute: AdminLoginRoute,
@@ -276,6 +295,7 @@ const rootRouteChildren: RootRouteChildren = {
   CategoriasRoute: CategoriasRoute,
   CheckoutRoute: CheckoutRoute,
   ProdutosRoute: ProdutosRoute,
+  AdminDashboardRoute: AdminDashboardRouteWithChildren,
   ProdutoSlugRoute: ProdutoSlugRoute,
 }
 export const routeTree = rootRouteImport

@@ -38,7 +38,7 @@ export function Navbar() {
         </nav>
 
         <div className="flex items-center gap-3">
-          <Link to="/admin" className="hidden text-muted-foreground transition-colors hover:text-primary md:block">
+          <Link to="/admin-login" className="hidden text-muted-foreground transition-colors hover:text-primary md:block">
             <User className="h-5 w-5" />
           </Link>
           <Link to="/carrinho" className="relative text-foreground transition-colors hover:text-primary">
@@ -82,7 +82,7 @@ export function Navbar() {
                 </Link>
               ))}
               <Link
-                to="/admin"
+                to="/admin-login"
                 onClick={() => setMobileOpen(false)}
                 className="rounded-lg px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-secondary"
               >
