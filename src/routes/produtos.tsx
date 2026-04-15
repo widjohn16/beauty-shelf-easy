@@ -31,8 +31,6 @@ function ProdutosPage() {
   const [categories, setCategories] = useState<Category[]>([]);
   const [selectedCategory, setSelectedCategory] = useState(categoria || "");
   const [searchTerm, setSearchTerm] = useState(busca || "");
-  const [selectedCategory, setSelectedCategory] = useState(categoria);
-  const [searchTerm, setSearchTerm] = useState(busca);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
