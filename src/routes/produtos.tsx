@@ -13,9 +13,9 @@ type Category = Database["public"]["Tables"]["categories"]["Row"];
 
 export const Route = createFileRoute("/produtos")({
   component: ProdutosPage,
-  validateSearch: (search: Record<string, unknown>) => ({
-    categoria: (search.categoria as string) ?? undefined,
-    busca: (search.busca as string) ?? undefined,
+  validateSearch: (search: Record<string, unknown>): { categoria?: string; busca?: string } => ({
+    categoria: (search.categoria as string) || undefined,
+    busca: (search.busca as string) || undefined,
   }),
   head: () => ({
     meta: [
@@ -29,6 +29,8 @@ function ProdutosPage() {
   const { categoria, busca } = Route.useSearch();
   const [products, setProducts] = useState<Product[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
+  const [selectedCategory, setSelectedCategory] = useState(categoria || "");
+  const [searchTerm, setSearchTerm] = useState(busca || "");
   const [selectedCategory, setSelectedCategory] = useState(categoria);
   const [searchTerm, setSearchTerm] = useState(busca);
   const [loading, setLoading] = useState(true);
