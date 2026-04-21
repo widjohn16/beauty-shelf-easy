@@ -1,5 +1,5 @@
-import { Link } from "@tanstack/react-router";
-import { ShoppingBag, Truck } from "lucide-react";
+import { Link, useNavigate } from "@tanstack/react-router";
+import { ShoppingBag, Truck, Zap } from "lucide-react";
 import { motion } from "framer-motion";
 import { addToCart } from "@/lib/cart-store";
 import { Button } from "@/components/ui/button";
