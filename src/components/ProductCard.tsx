@@ -27,10 +27,19 @@ export function ProductCard({
   free_shipping,
   is_promotion,
 }: ProductCardProps) {
+  const navigate = useNavigate();
+
   const handleAddToCart = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
     addToCart({ id, name, price, image_url, free_shipping: free_shipping ?? false });
+  };
+
+  const handleBuyNow = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    addToCart({ id, name, price, image_url, free_shipping: free_shipping ?? false });
+    navigate({ to: "/checkout" });
   };
 
   return (
