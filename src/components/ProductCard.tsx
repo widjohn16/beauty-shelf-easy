@@ -1,5 +1,5 @@
-import { Link } from "@tanstack/react-router";
-import { ShoppingBag, Truck } from "lucide-react";
+import { Link, useNavigate } from "@tanstack/react-router";
+import { ShoppingBag, Truck, Zap } from "lucide-react";
 import { motion } from "framer-motion";
 import { addToCart } from "@/lib/cart-store";
 import { Button } from "@/components/ui/button";
@@ -27,10 +27,19 @@ export function ProductCard({
   free_shipping,
   is_promotion,
 }: ProductCardProps) {
+  const navigate = useNavigate();
+
   const handleAddToCart = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
     addToCart({ id, name, price, image_url, free_shipping: free_shipping ?? false });
+  };
+
+  const handleBuyNow = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    addToCart({ id, name, price, image_url, free_shipping: free_shipping ?? false });
+    navigate({ to: "/checkout" });
   };
 
   return (
@@ -86,14 +95,25 @@ export function ProductCard({
               </span>
             )}
           </div>
-          <Button
-            onClick={handleAddToCart}
-            size="sm"
-            className="mt-3 w-full"
-          >
-            <ShoppingBag className="mr-2 h-4 w-4" />
-            Adicionar
-          </Button>
+          <div className="mt-3 flex gap-2">
+            <Button
+              onClick={handleAddToCart}
+              size="sm"
+              variant="outline"
+              className="flex-1"
+            >
+              <ShoppingBag className="mr-1 h-4 w-4" />
+              Adicionar
+            </Button>
+            <Button
+              onClick={handleBuyNow}
+              size="sm"
+              className="flex-1"
+            >
+              <Zap className="mr-1 h-4 w-4" />
+              Comprar
+            </Button>
+          </div>
         </div>
       </Link>
     </motion.div>
