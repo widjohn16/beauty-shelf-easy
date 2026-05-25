@@ -1,4 +1,5 @@
 import { Outlet, Link, createRootRoute, HeadContent, Scripts } from "@tanstack/react-router";
+import { WhatsAppButton } from "@/components/WhatsAppButton";
 
 import appCss from "../styles.css?url";
 
@@ -29,10 +30,10 @@ export const Route = createRootRoute({
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "BellaCosméticos - Produtos de Beleza" },
-      { name: "description", content: "Loja de cosméticos com Natura, O Boticário e mais. Frete grátis e preços especiais." },
-      { property: "og:title", content: "BellaCosméticos" },
-      { property: "og:description", content: "Os melhores produtos de beleza" },
+      { title: "PJ Presentes & Variedades" },
+      { name: "description", content: "Presentes, cosméticos e variedades. Natura, O Boticário e mais. WhatsApp (11) 96718-4446." },
+      { property: "og:title", content: "PJ Presentes & Variedades" },
+      { property: "og:description", content: "Presentes, cosméticos e variedades para todas as ocasiões." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
       { name: "twitter:site", content: "@Lovable" },
@@ -64,5 +65,10 @@ function RootShell({ children }: { children: React.ReactNode }) {
 }
 
 function RootComponent() {
-  return <Outlet />;
+  return (
+    <>
+      <Outlet />
+      <WhatsAppButton />
+    </>
+  );
 }

@@ -7,10 +7,10 @@ export function Footer() {
         <div className="grid gap-8 md:grid-cols-3">
           <div>
             <h3 className="font-display text-lg font-bold text-foreground">
-              Bella<span className="text-primary">Cosméticos</span>
+              PJ <span className="text-primary">Presentes & Variedades</span>
             </h3>
             <p className="mt-2 text-sm text-muted-foreground">
-              Os melhores produtos de beleza das marcas que você ama.
+              Presentes, cosméticos e variedades para todas as ocasiões.
             </p>
           </div>
           <div>
@@ -23,12 +23,18 @@ export function Footer() {
           </div>
           <div>
             <h4 className="mb-3 text-sm font-semibold text-foreground">Contato</h4>
-            <p className="text-sm text-muted-foreground">contato@bellacosmeticos.com</p>
-            <p className="text-sm text-muted-foreground">(11) 99999-9999</p>
+            <a
+              href="https://wa.me/5511967184446"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-sm text-muted-foreground hover:text-primary"
+            >
+              WhatsApp: (11) 96718-4446
+            </a>
           </div>
         </div>
         <div className="mt-8 border-t border-border pt-6 text-center text-xs text-muted-foreground">
-          © {new Date().getFullYear()} BellaCosméticos. Todos os direitos reservados.
+          © {new Date().getFullYear()} PJ Presentes & Variedades. Todos os direitos reservados.
         </div>
       </div>
     </footer>
