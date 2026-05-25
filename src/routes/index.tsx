@@ -15,8 +15,8 @@ export const Route = createFileRoute("/")({
   component: HomePage,
   head: () => ({
     meta: [
-      { title: "BellaCosméticos - Produtos de Beleza" },
-      { name: "description", content: "Os melhores cosméticos de Natura, O Boticário e mais." },
+      { title: "PJ Presentes & Variedades" },
+      { name: "description", content: "Presentes, cosméticos e variedades. Natura, O Boticário e mais." },
     ],
   }),
 });
