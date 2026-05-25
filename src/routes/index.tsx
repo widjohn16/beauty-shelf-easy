@@ -106,7 +106,7 @@ function HomePage() {
         {featuredProducts.length === 0 && categories.length === 0 && promoProducts.length === 0 && (
           <section className="mx-auto max-w-7xl px-4 py-20 text-center">
             <h2 className="font-display text-2xl font-bold text-foreground">
-              Bem-vindo à BellaCosméticos!
+              Bem-vindo à PJ Presentes & Variedades!
             </h2>
             <p className="mt-2 text-muted-foreground">
               Acesse o <a href="/admin-login" className="text-primary underline">painel administrativo</a> para cadastrar seus primeiros produtos e categorias.
