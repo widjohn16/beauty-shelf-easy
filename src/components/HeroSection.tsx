@@ -6,8 +6,16 @@ import { Button } from "@/components/ui/button";
 import hero1 from "@/assets/hero-1.jpg";
 import hero2 from "@/assets/hero-2.jpg";
 import hero3 from "@/assets/hero-3.jpg";
+import hero4 from "@/assets/hero-4.jpg";
+import hero5 from "@/assets/hero-5.jpg";
 
-const images = [hero1, hero2, hero3];
+const images = [
+  { src: hero1, alt: "Perfumaria Natura" },
+  { src: hero3, alt: "Maquiagem O Boticário" },
+  { src: hero4, alt: "Cabelos O Boticário" },
+  { src: hero2, alt: "Corpo e Banho Natura" },
+  { src: hero5, alt: "Rosto O Boticário" },
+];
 
 export function HeroSection() {
   const [index, setIndex] = useState(0);
@@ -32,8 +40,8 @@ export function HeroSection() {
           className="absolute inset-0"
         >
           <img
-            src={images[index]}
-            alt="Galeria de produtos"
+            src={images[index].src}
+            alt={images[index].alt}
             className="h-full w-full object-cover"
             width={1920}
             height={1080}
