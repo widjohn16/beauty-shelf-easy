@@ -16,11 +16,13 @@ import { Route as CarrinhoRouteImport } from './routes/carrinho'
 import { Route as AdminLoginRouteImport } from './routes/admin-login'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ProdutoSlugRouteImport } from './routes/produto.$slug'
+import { Route as CheckoutReturnRouteImport } from './routes/checkout.return'
 import { Route as AdminDashboardRouteImport } from './routes/admin.dashboard'
 import { Route as AdminDashboardIndexRouteImport } from './routes/admin.dashboard.index'
 import { Route as AdminDashboardProductsRouteImport } from './routes/admin.dashboard.products'
 import { Route as AdminDashboardOrdersRouteImport } from './routes/admin.dashboard.orders'
 import { Route as AdminDashboardCategoriesRouteImport } from './routes/admin.dashboard.categories'
+import { Route as ApiPublicPaymentsWebhookRouteImport } from './routes/api/public/payments/webhook'
 
 const ProdutosRoute = ProdutosRouteImport.update({
   id: '/produtos',
@@ -57,6 +59,11 @@ const ProdutoSlugRoute = ProdutoSlugRouteImport.update({
   path: '/produto/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CheckoutReturnRoute = CheckoutReturnRouteImport.update({
+  id: '/return',
+  path: '/return',
+  getParentRoute: () => CheckoutRoute,
+} as any)
 const AdminDashboardRoute = AdminDashboardRouteImport.update({
   id: '/admin/dashboard',
   path: '/admin/dashboard',
@@ -83,33 +90,43 @@ const AdminDashboardCategoriesRoute =
     path: '/categories',
     getParentRoute: () => AdminDashboardRoute,
   } as any)
+const ApiPublicPaymentsWebhookRoute =
+  ApiPublicPaymentsWebhookRouteImport.update({
+    id: '/api/public/payments/webhook',
+    path: '/api/public/payments/webhook',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/admin-login': typeof AdminLoginRoute
   '/carrinho': typeof CarrinhoRoute
   '/categorias': typeof CategoriasRoute
-  '/checkout': typeof CheckoutRoute
+  '/checkout': typeof CheckoutRouteWithChildren
   '/produtos': typeof ProdutosRoute
   '/admin/dashboard': typeof AdminDashboardRouteWithChildren
+  '/checkout/return': typeof CheckoutReturnRoute
   '/produto/$slug': typeof ProdutoSlugRoute
   '/admin/dashboard/categories': typeof AdminDashboardCategoriesRoute
   '/admin/dashboard/orders': typeof AdminDashboardOrdersRoute
   '/admin/dashboard/products': typeof AdminDashboardProductsRoute
   '/admin/dashboard/': typeof AdminDashboardIndexRoute
+  '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/admin-login': typeof AdminLoginRoute
   '/carrinho': typeof CarrinhoRoute
   '/categorias': typeof CategoriasRoute
-  '/checkout': typeof CheckoutRoute
+  '/checkout': typeof CheckoutRouteWithChildren
   '/produtos': typeof ProdutosRoute
+  '/checkout/return': typeof CheckoutReturnRoute
   '/produto/$slug': typeof ProdutoSlugRoute
   '/admin/dashboard/categories': typeof AdminDashboardCategoriesRoute
   '/admin/dashboard/orders': typeof AdminDashboardOrdersRoute
   '/admin/dashboard/products': typeof AdminDashboardProductsRoute
   '/admin/dashboard': typeof AdminDashboardIndexRoute
+  '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -117,14 +134,16 @@ export interface FileRoutesById {
   '/admin-login': typeof AdminLoginRoute
   '/carrinho': typeof CarrinhoRoute
   '/categorias': typeof CategoriasRoute
-  '/checkout': typeof CheckoutRoute
+  '/checkout': typeof CheckoutRouteWithChildren
   '/produtos': typeof ProdutosRoute
   '/admin/dashboard': typeof AdminDashboardRouteWithChildren
+  '/checkout/return': typeof CheckoutReturnRoute
   '/produto/$slug': typeof ProdutoSlugRoute
   '/admin/dashboard/categories': typeof AdminDashboardCategoriesRoute
   '/admin/dashboard/orders': typeof AdminDashboardOrdersRoute
   '/admin/dashboard/products': typeof AdminDashboardProductsRoute
   '/admin/dashboard/': typeof AdminDashboardIndexRoute
+  '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -136,11 +155,13 @@ export interface FileRouteTypes {
     | '/checkout'
     | '/produtos'
     | '/admin/dashboard'
+    | '/checkout/return'
     | '/produto/$slug'
     | '/admin/dashboard/categories'
     | '/admin/dashboard/orders'
     | '/admin/dashboard/products'
     | '/admin/dashboard/'
+    | '/api/public/payments/webhook'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -149,11 +170,13 @@ export interface FileRouteTypes {
     | '/categorias'
     | '/checkout'
     | '/produtos'
+    | '/checkout/return'
     | '/produto/$slug'
     | '/admin/dashboard/categories'
     | '/admin/dashboard/orders'
     | '/admin/dashboard/products'
     | '/admin/dashboard'
+    | '/api/public/payments/webhook'
   id:
     | '__root__'
     | '/'
@@ -163,11 +186,13 @@ export interface FileRouteTypes {
     | '/checkout'
     | '/produtos'
     | '/admin/dashboard'
+    | '/checkout/return'
     | '/produto/$slug'
     | '/admin/dashboard/categories'
     | '/admin/dashboard/orders'
     | '/admin/dashboard/products'
     | '/admin/dashboard/'
+    | '/api/public/payments/webhook'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -175,10 +200,11 @@ export interface RootRouteChildren {
   AdminLoginRoute: typeof AdminLoginRoute
   CarrinhoRoute: typeof CarrinhoRoute
   CategoriasRoute: typeof CategoriasRoute
-  CheckoutRoute: typeof CheckoutRoute
+  CheckoutRoute: typeof CheckoutRouteWithChildren
   ProdutosRoute: typeof ProdutosRoute
   AdminDashboardRoute: typeof AdminDashboardRouteWithChildren
   ProdutoSlugRoute: typeof ProdutoSlugRoute
+  ApiPublicPaymentsWebhookRoute: typeof ApiPublicPaymentsWebhookRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -232,6 +258,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProdutoSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/checkout/return': {
+      id: '/checkout/return'
+      path: '/return'
+      fullPath: '/checkout/return'
+      preLoaderRoute: typeof CheckoutReturnRouteImport
+      parentRoute: typeof CheckoutRoute
+    }
     '/admin/dashboard': {
       id: '/admin/dashboard'
       path: '/admin/dashboard'
@@ -267,8 +300,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminDashboardCategoriesRouteImport
       parentRoute: typeof AdminDashboardRoute
     }
+    '/api/public/payments/webhook': {
+      id: '/api/public/payments/webhook'
+      path: '/api/public/payments/webhook'
+      fullPath: '/api/public/payments/webhook'
+      preLoaderRoute: typeof ApiPublicPaymentsWebhookRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
+
+interface CheckoutRouteChildren {
+  CheckoutReturnRoute: typeof CheckoutReturnRoute
+}
+
+const CheckoutRouteChildren: CheckoutRouteChildren = {
+  CheckoutReturnRoute: CheckoutReturnRoute,
+}
+
+const CheckoutRouteWithChildren = CheckoutRoute._addFileChildren(
+  CheckoutRouteChildren,
+)
 
 interface AdminDashboardRouteChildren {
   AdminDashboardCategoriesRoute: typeof AdminDashboardCategoriesRoute
@@ -293,20 +345,12 @@ const rootRouteChildren: RootRouteChildren = {
   AdminLoginRoute: AdminLoginRoute,
   CarrinhoRoute: CarrinhoRoute,
   CategoriasRoute: CategoriasRoute,
-  CheckoutRoute: CheckoutRoute,
+  CheckoutRoute: CheckoutRouteWithChildren,
   ProdutosRoute: ProdutosRoute,
   AdminDashboardRoute: AdminDashboardRouteWithChildren,
   ProdutoSlugRoute: ProdutoSlugRoute,
+  ApiPublicPaymentsWebhookRoute: ApiPublicPaymentsWebhookRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { createStart } from '@tanstack/react-start'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-  }
-}
