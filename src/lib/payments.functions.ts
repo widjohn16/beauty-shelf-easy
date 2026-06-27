@@ -84,7 +84,7 @@ export const createCheckoutSession = createServerFn({ method: "POST" })
         ui_mode: "embedded_page",
         mode: "payment",
         return_url: `${data.returnUrl}?session_id={CHECKOUT_SESSION_ID}`,
-        automatic_payment_methods: { enabled: true },
+        // payment methods are controlled by the Stripe Dashboard settings
         customer_email: data.customer.email,
         line_items: data.items.map((i) => ({
           quantity: i.quantity,
