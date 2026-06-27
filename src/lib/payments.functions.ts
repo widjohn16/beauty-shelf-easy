@@ -84,7 +84,7 @@ export const createCheckoutSession = createServerFn({ method: "POST" })
         ui_mode: "embedded_page",
         mode: "payment",
         return_url: `${data.returnUrl}?session_id={CHECKOUT_SESSION_ID}`,
-        payment_method_types: ["card", "pix"],
+        automatic_payment_methods: { enabled: true },
         customer_email: data.customer.email,
         line_items: data.items.map((i) => ({
           quantity: i.quantity,
