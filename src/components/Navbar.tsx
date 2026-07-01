@@ -4,6 +4,8 @@ import { useState } from "react";
 import { useCart } from "@/lib/cart-store";
 import { motion, AnimatePresence } from "framer-motion";
 
+const LOGO_URL = "https://xcdguwzsdsosvaizgzqu.supabase.co/storage/v1/object/public/product-image/logo4.png";
+
 export function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const { count } = useCart();
