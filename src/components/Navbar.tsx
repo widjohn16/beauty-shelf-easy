@@ -4,6 +4,8 @@ import { useState } from "react";
 import { useCart } from "@/lib/cart-store";
 import { motion, AnimatePresence } from "framer-motion";
 
+const LOGO_URL = "https://xcdguwzsdsosvaizgzqu.supabase.co/storage/v1/object/public/product-image/logo4.png";
+
 export function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const { count } = useCart();
@@ -18,8 +20,12 @@ export function Navbar() {
   return (
     <header className="sticky top-0 z-50 border-b border-border bg-background/80 backdrop-blur-md">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4">
-        <Link to="/" className="font-display text-xl font-bold tracking-tight text-foreground">
-          PJ <span className="text-primary">Presentes & Variedades</span>
+        <Link to="/" className="flex items-center gap-2 font-display text-xl font-bold tracking-tight text-foreground">
+          <img
+            src={LOGO_URL}
+            alt="PJ Presentes & Variedades"
+            className="h-8 w-auto object-contain md:h-10"
+          />
         </Link>
 
         {/* Desktop nav */}
