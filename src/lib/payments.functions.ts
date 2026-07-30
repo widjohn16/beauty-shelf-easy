@@ -90,11 +90,23 @@ export const createCheckoutSession = createServerFn({ method: "POST" })
         })),
       );
 
+      const method = data.paymentMethod;
+
       const session = await stripe.checkout.sessions.create({
         ui_mode: "embedded_page",
         mode: "payment",
         return_url: `${data.returnUrl}?session_id={CHECKOUT_SESSION_ID}`,
-        // payment methods are controlled by the Stripe Dashboard settings
+        // When the customer picks a method on our page we restrict Stripe to it;
+        // otherwise the Dashboard settings decide which methods appear.
+        ...(method ? { payment_method_types: [method] } : {}),
+        ...(method === "boleto"
+          ? {
+              billing_address_collection: "required" as const,
+              payment_method_options: {
+                boleto: { expires_after_days: 3 },
+              },
+            }
+          : {}),
         customer_email: data.customer.email,
         line_items: data.items.map((i) => ({
           quantity: i.quantity,
@@ -109,10 +121,11 @@ export const createCheckoutSession = createServerFn({ method: "POST" })
         })),
         payment_intent_data: {
           description: `Pedido ${order.id}`,
-          metadata: { order_id: order.id },
+          metadata: { order_id: order.id, payment_method: method ?? "auto" },
         },
-        metadata: { order_id: order.id },
+        metadata: { order_id: order.id, payment_method: method ?? "auto" },
       });
+
 
       await supabase
         .from("orders")
