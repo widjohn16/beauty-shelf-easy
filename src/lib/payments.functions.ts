@@ -21,6 +21,8 @@ type CustomerInput = {
   address?: string;
 };
 
+type PaymentMethod = "card" | "pix" | "boleto";
+
 type CheckoutResult =
   | { clientSecret: string; orderId: string }
   | { error: string };
@@ -32,12 +34,20 @@ export const createCheckoutSession = createServerFn({ method: "POST" })
       customer: CustomerInput;
       returnUrl: string;
       environment: StripeEnv;
+      paymentMethod?: PaymentMethod;
     }) => {
       if (!data.items?.length) throw new Error("Carrinho vazio");
       if (!data.customer?.email) throw new Error("Email obrigatório");
+      if (
+        data.paymentMethod &&
+        !["card", "pix", "boleto"].includes(data.paymentMethod)
+      ) {
+        throw new Error("Forma de pagamento inválida");
+      }
       return data;
     },
   )
+
   .handler(async ({ data }): Promise<CheckoutResult> => {
     try {
       const stripe = createStripeClient(data.environment);
