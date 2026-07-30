@@ -21,6 +21,34 @@ export const Route = createFileRoute("/checkout")({
   }),
 });
 
+type PaymentMethod = "card" | "pix" | "boleto";
+
+const PAYMENT_OPTIONS: {
+  id: PaymentMethod;
+  label: string;
+  icon: string;
+  hint: string;
+}[] = [
+  {
+    id: "card",
+    label: "Cartão de Crédito",
+    icon: "💳",
+    hint: "Visa, Mastercard, Elo e outras bandeiras · parcelamento quando disponível",
+  },
+  {
+    id: "pix",
+    label: "PIX",
+    icon: "⚡",
+    hint: "QR Code e código Copia e Cola gerados na hora",
+  },
+  {
+    id: "boleto",
+    label: "Boleto Bancário",
+    icon: "🧾",
+    hint: "Vencimento em até 3 dias úteis · compensação em até 3 dias",
+  },
+];
+
 function CheckoutPage() {
   const { items, total } = useCart();
   const navigate = useNavigate();
@@ -28,6 +56,7 @@ function CheckoutPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [clientSecret, setClientSecret] = useState<string | null>(null);
+  const [method, setMethod] = useState<PaymentMethod>("card");
   const [form, setForm] = useState({
     name: "",
     email: "",
@@ -59,6 +88,7 @@ function CheckoutPage() {
             image_url: i.image_url,
           })),
           customer: form,
+          paymentMethod: method,
           returnUrl: `${window.location.origin}/checkout/return`,
           environment: getStripeEnvironment(),
         },
@@ -76,6 +106,7 @@ function CheckoutPage() {
       setLoading(false);
     }
   };
+
 
   const fetchClientSecret = useCallback(async () => {
     return clientSecret ?? "";
