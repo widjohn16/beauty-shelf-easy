@@ -21,6 +21,34 @@ export const Route = createFileRoute("/checkout")({
   }),
 });
 
+type PaymentMethod = "card" | "pix" | "boleto";
+
+const PAYMENT_OPTIONS: {
+  id: PaymentMethod;
+  label: string;
+  icon: string;
+  hint: string;
+}[] = [
+  {
+    id: "card",
+    label: "Cartão de Crédito",
+    icon: "💳",
+    hint: "Visa, Mastercard, Elo e outras bandeiras · parcelamento quando disponível",
+  },
+  {
+    id: "pix",
+    label: "PIX",
+    icon: "⚡",
+    hint: "QR Code e código Copia e Cola gerados na hora",
+  },
+  {
+    id: "boleto",
+    label: "Boleto Bancário",
+    icon: "🧾",
+    hint: "Vencimento em até 3 dias úteis · compensação em até 3 dias",
+  },
+];
+
 function CheckoutPage() {
   const { items, total } = useCart();
   const navigate = useNavigate();
@@ -28,6 +56,7 @@ function CheckoutPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [clientSecret, setClientSecret] = useState<string | null>(null);
+  const [method, setMethod] = useState<PaymentMethod>("card");
   const [form, setForm] = useState({
     name: "",
     email: "",
@@ -59,6 +88,7 @@ function CheckoutPage() {
             image_url: i.image_url,
           })),
           customer: form,
+          paymentMethod: method,
           returnUrl: `${window.location.origin}/checkout/return`,
           environment: getStripeEnvironment(),
         },
@@ -76,6 +106,7 @@ function CheckoutPage() {
       setLoading(false);
     }
   };
+
 
   const fetchClientSecret = useCallback(async () => {
     return clientSecret ?? "";
@@ -159,6 +190,51 @@ function CheckoutPage() {
                   />
                 </div>
 
+                <div className="pt-2">
+                  <h2 className="text-lg font-semibold">Forma de pagamento</h2>
+                  <div className="mt-3 space-y-3">
+                    {PAYMENT_OPTIONS.map((opt) => {
+                      const active = method === opt.id;
+                      return (
+                        <label
+                          key={opt.id}
+                          className={`flex cursor-pointer items-start gap-3 rounded-xl border p-4 transition-colors ${
+                            active
+                              ? "border-primary bg-primary/5 ring-1 ring-primary"
+                              : "border-border bg-card hover:border-primary/40"
+                          }`}
+                        >
+                          <input
+                            type="radio"
+                            name="payment-method"
+                            value={opt.id}
+                            checked={active}
+                            onChange={() => setMethod(opt.id)}
+                            className="mt-1 h-4 w-4 accent-[hsl(var(--primary))]"
+                          />
+                          <span className="flex-1">
+                            <span className="flex items-center gap-2 font-medium text-foreground">
+                              <span aria-hidden>{opt.icon}</span>
+                              {opt.label}
+                            </span>
+                            <span className="mt-1 block text-xs text-muted-foreground">
+                              {opt.hint}
+                            </span>
+                          </span>
+                        </label>
+                      );
+                    })}
+                  </div>
+                  <p className="mt-3 text-xs text-muted-foreground">
+                    {method === "pix" &&
+                      "Após confirmar, o QR Code e o código Copia e Cola aparecem na tela de pagamento."}
+                    {method === "boleto" &&
+                      "O boleto é gerado na próxima etapa, com vencimento em até 3 dias úteis."}
+                    {method === "card" &&
+                      "Os campos de número, titular, validade, CVV e parcelamento aparecem na próxima etapa."}
+                  </p>
+                </div>
+
                 {error && (
                   <p className="rounded-md bg-destructive/10 p-3 text-sm text-destructive">
                     {error}
@@ -174,8 +250,9 @@ function CheckoutPage() {
                   {loading ? "Processando..." : "Ir para pagamento"}
                 </Button>
                 <p className="text-center text-xs text-muted-foreground">
-                  Pagamento seguro via Stripe · Cartão de crédito ou PIX
+                  Pagamento seguro via Stripe · Cartão, PIX ou Boleto
                 </p>
+
               </form>
 
               <div className="h-fit rounded-xl border border-border bg-card p-4">

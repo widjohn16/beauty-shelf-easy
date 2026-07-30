@@ -21,6 +21,8 @@ type CustomerInput = {
   address?: string;
 };
 
+type PaymentMethod = "card" | "pix" | "boleto";
+
 type CheckoutResult =
   | { clientSecret: string; orderId: string }
   | { error: string };
@@ -32,12 +34,20 @@ export const createCheckoutSession = createServerFn({ method: "POST" })
       customer: CustomerInput;
       returnUrl: string;
       environment: StripeEnv;
+      paymentMethod?: PaymentMethod;
     }) => {
       if (!data.items?.length) throw new Error("Carrinho vazio");
       if (!data.customer?.email) throw new Error("Email obrigatório");
+      if (
+        data.paymentMethod &&
+        !["card", "pix", "boleto"].includes(data.paymentMethod)
+      ) {
+        throw new Error("Forma de pagamento inválida");
+      }
       return data;
     },
   )
+
   .handler(async ({ data }): Promise<CheckoutResult> => {
     try {
       const stripe = createStripeClient(data.environment);
@@ -80,11 +90,23 @@ export const createCheckoutSession = createServerFn({ method: "POST" })
         })),
       );
 
+      const method = data.paymentMethod;
+
       const session = await stripe.checkout.sessions.create({
         ui_mode: "embedded_page",
         mode: "payment",
         return_url: `${data.returnUrl}?session_id={CHECKOUT_SESSION_ID}`,
-        // payment methods are controlled by the Stripe Dashboard settings
+        // When the customer picks a method on our page we restrict Stripe to it;
+        // otherwise the Dashboard settings decide which methods appear.
+        ...(method ? { payment_method_types: [method] } : {}),
+        ...(method === "boleto"
+          ? {
+              billing_address_collection: "required" as const,
+              payment_method_options: {
+                boleto: { expires_after_days: 3 },
+              },
+            }
+          : {}),
         customer_email: data.customer.email,
         line_items: data.items.map((i) => ({
           quantity: i.quantity,
@@ -99,10 +121,11 @@ export const createCheckoutSession = createServerFn({ method: "POST" })
         })),
         payment_intent_data: {
           description: `Pedido ${order.id}`,
-          metadata: { order_id: order.id },
+          metadata: { order_id: order.id, payment_method: method ?? "auto" },
         },
-        metadata: { order_id: order.id },
+        metadata: { order_id: order.id, payment_method: method ?? "auto" },
       });
+
 
       await supabase
         .from("orders")
