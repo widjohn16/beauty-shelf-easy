@@ -1,0 +1,5 @@
+UPDATE public.products SET image_url = 'https://xcdguwzsdsosvaizgzqu.supabase.co/storage/v1/object/public/product-images/ProdutosNatura/clean/ekos.png' WHERE id = '0f283bbb-a526-4005-8a3a-efb859a1b4ba';
+UPDATE public.products SET image_url = 'https://xcdguwzsdsosvaizgzqu.supabase.co/storage/v1/object/public/product-images/ProdutosNatura/clean/homem.png' WHERE id = 'dc5bcf6e-8b8a-4112-927c-f40152ea398e';
+UPDATE public.products SET image_url = 'https://xcdguwzsdsosvaizgzqu.supabase.co/storage/v1/object/public/product-images/ProdutosNatura/clean/kaiak-aventura.png' WHERE id = '0d684d77-e26c-4e19-bc68-1380be512d12';
+UPDATE public.products SET image_url = 'https://xcdguwzsdsosvaizgzqu.supabase.co/storage/v1/object/public/product-images/ProdutosNatura/clean/kaiak.png' WHERE id = '0e5f81fd-cc78-4e72-9340-4923ca88f2d5';
+UPDATE public.products SET image_url = 'https://xcdguwzsdsosvaizgzqu.supabase.co/storage/v1/object/public/product-images/ProdutosNatura/clean/tododia.png' WHERE id = 'd010a7c1-7692-4871-bda7-820082bdfa2f';
